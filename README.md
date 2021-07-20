@@ -132,7 +132,6 @@ go build ./cmd/flyingstar/main.go
 
 组件 | 备注 | 完成度
 ---|---|---
-es组件 | 封装elastic-search相关接口 | 计划
 支付模块 | 包含微信支付、支付宝、普通支付 | 开发中
 微信sdk | 集成微信相关接口 | 开发中
 企业微信sdk | 集成企业微信相关接口 | 开发中
@@ -142,4 +141,4 @@ es组件 | 封装elastic-search相关接口 | 计划
 七牛sdk | 集成七牛相关接口 | 计划
 令牌中心 | token集中管理使用 | 完成
 消息即时通知 | 使用websocket技术即时推送消息 | 完成
-数据库 | mysql、redis... | 补充中
+数据库 | mysql、redis、es... | 补充中（需要补充es）
