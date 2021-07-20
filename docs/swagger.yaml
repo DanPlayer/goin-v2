@@ -1,0 +1,353 @@
+definitions:
+  pojo.UserInfo:
+    properties:
+      avatar:
+        description: 用户头像
+        type: string
+      mailBox:
+        description: 邮箱
+        type: string
+      mobile:
+        description: 手机号码
+        type: string
+      nickName:
+        description: 用户昵称
+        type: string
+      roleCode:
+        description: 账号角色 basic:普通员工 admin:管理员
+        type: string
+      sex:
+        description: 性别
+        type: integer
+      uid:
+        description: 用户唯一标识
+        type: string
+      userName:
+        description: 用户名
+        type: string
+    type: object
+  v1.AddRolesForUserPost:
+    properties:
+      roles:
+        items:
+          type: string
+        type: array
+      uid:
+        type: string
+    required:
+    - roles
+    - uid
+    type: object
+  v1.DeleteRolesForUserPost:
+    properties:
+      roles:
+        items:
+          type: string
+        type: array
+      uid:
+        type: string
+    required:
+    - roles
+    - uid
+    type: object
+  v1.EnforcePost:
+    properties:
+      act:
+        description: 用户对资源的操作(GET,POST)
+        type: string
+      obj:
+        description: 将要被访问的资源(功能路径)
+        type: string
+      sub:
+        description: 角色
+        type: string
+    required:
+    - act
+    - obj
+    - sub
+    type: object
+  v1.ModifyUserRoleParam:
+    properties:
+      roleCode:
+        description: 修改为某个角色 basic:普通员工 admin:管理员
+        type: string
+      uid:
+        description: 被修改的用户ID
+        type: string
+    required:
+    - roleCode
+    - uid
+    type: object
+  v1.UpdateRolesForUserPut:
+    properties:
+      roles:
+        items:
+          type: string
+        type: array
+      uid:
+        type: string
+    required:
+    - roles
+    - uid
+    type: object
+  v1.UserLogin:
+    properties:
+      password:
+        description: 密码
+        type: string
+      user_name:
+        description: 用户名
+        type: string
+    required:
+    - password
+    - user_name
+    type: object
+  v1.UserLoginResponse:
+    properties:
+      info:
+        $ref: '#/definitions/pojo.UserInfo'
+        description: 用户信息
+      token:
+        description: token
+        type: string
+    type: object
+host: localhost:8088
+info:
+  contact:
+    name: GoIn
+    url: localhost:8088
+  description: GoIn
+  title: GoIn
+  version: "2.0"
+paths:
+  /casbin/v1/application/enforce:
+    post:
+      consumes:
+      - application/json
+      description: 注册接口
+      parameters:
+      - description: 创建Casbin权限参数
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1.EnforcePost'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: 创建Casbin权限
+      tags:
+      - 权限
+  /casbin/v1/application/policy/all:
+    get:
+      consumes:
+      - application/json
+      description: 获取所有权限
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                type: string
+              type: array
+            type: array
+      summary: 获取所有权限
+      tags:
+      - 权限
+  /casbin/v1/application/policy/role:
+    get:
+      consumes:
+      - application/json
+      description: 获取角色所有权限
+      parameters:
+      - description: 角色名称
+        in: query
+        name: role
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                type: string
+              type: array
+            type: array
+      summary: 获取角色所有权限
+      tags:
+      - 权限
+  /casbin/v1/application/role/policy:
+    delete:
+      consumes:
+      - application/json
+      description: 批量删除角色权限
+      parameters:
+      - description: 需要删除的权限，格式：[{
+        in: body
+        name: body
+        required: true
+        schema:
+          items:
+            items:
+              type: string
+            type: array
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: 批量删除角色权限
+      tags:
+      - 权限
+  /casbin/v1/application/user/role:
+    delete:
+      consumes:
+      - application/json
+      description: 批量删除用户角色
+      parameters:
+      - description: 批量删除用户角色参数
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1.DeleteRolesForUserPost'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: 批量删除用户角色
+      tags:
+      - 权限
+    get:
+      consumes:
+      - application/json
+      description: 获取用户所有角色
+      parameters:
+      - description: 用户ID
+        in: query
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: 获取用户所有角色
+      tags:
+      - 权限
+    post:
+      consumes:
+      - application/json
+      description: 新增用户角色
+      parameters:
+      - description: 新增用户角色参数
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1.AddRolesForUserPost'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: 新增用户角色
+      tags:
+      - 权限
+    put:
+      consumes:
+      - application/json
+      description: 新增用户角色
+      parameters:
+      - description: 更新用户角色参数
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1.UpdateRolesForUserPut'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: 新增用户角色
+      tags:
+      - 权限
+  /user/v1/application/info:
+    get:
+      consumes:
+      - application/json
+      description: 用户信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pojo.UserInfo'
+      summary: 用户信息
+      tags:
+      - 用户
+  /user/v1/application/login:
+    post:
+      consumes:
+      - application/json
+      description: 普通登录
+      parameters:
+      - description: 登陆参数
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1.UserLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.UserLoginResponse'
+      summary: 普通登录
+      tags:
+      - 用户
+  /user/v1/application/modify/role:
+    post:
+      consumes:
+      - application/json
+      description: 修改用户角色
+      parameters:
+      - description: 修改用户角色权限参数
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1.ModifyUserRoleParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: 修改用户角色
+      tags:
+      - 用户
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
