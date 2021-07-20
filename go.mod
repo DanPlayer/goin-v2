@@ -11,6 +11,7 @@ require (
 	github.com/baiyubin/aliyun-sts-go-sdk v0.0.0-20180326062324-cfa1a18b161f // indirect
 	github.com/casbin/casbin/v2 v2.31.2
 	github.com/casbin/gorm-adapter/v3 v3.2.12
+	github.com/elastic/go-elasticsearch/v7 v7.13.1
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/gin-gonic/gin v1.7.2
 	github.com/go-openapi/jsonreference v0.19.6 // indirect
@@ -23,9 +24,7 @@ require (
 	github.com/go-redis/redis/v8 v8.10.0
 	github.com/go-redsync/redsync/v4 v4.3.0
 	github.com/gomodule/redigo v2.0.0+incompatible // indirect
-	github.com/gorilla/websocket v1.4.2
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
-	github.com/larksuite/oapi-sdk-go v1.1.39-rc2
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/onsi/ginkgo v1.16.4 // indirect
 	github.com/onsi/gomega v1.13.0 // indirect
